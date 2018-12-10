@@ -1,7 +1,7 @@
 {
-  "name": "bloomstack-panda",
+  "name": "@bloomstack/panda",
   "version": "1.0.0",
-  "description": "Describe bloomstack-panda here",
+  "description": "A generic aggregate composition library. Meant to be light weight and easily extensible.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -22,7 +22,7 @@
   "devDependencies": {
     "nwb": "0.23.x"
   },
-  "author": "",
+  "author": "forellana@digithinkit.com",
   "homepage": "",
   "license": "MIT",
   "repository": ""

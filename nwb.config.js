@@ -3,5 +3,13 @@ module.exports = {
   npm: {
     esModules: true,
     umd: false
+  },
+  webpack: {
+    extra: {
+      devtool: 'inline-source-map'
+    }
+  },
+  karma: {
+    browsers: ["Chrome"]
   }
 }
