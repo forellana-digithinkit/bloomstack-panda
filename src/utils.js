@@ -22,3 +22,26 @@ export class ChildToggle extends Component {
         }
     }
 }
+
+export class Event {
+    constructor(isCancelable) {
+        this._isCancelable = isCancelable?true:false;
+        this._wasCanceled = false;
+    }
+
+    get isCancelable() {
+        return this._isCancelable;
+    }
+
+    get wasCanceled() {
+        return this._wasCanceled;
+    }
+
+    cancel() {
+        if ( this._isCancelable ) {
+            this._wasCanceled = true;
+        } else {
+            throw new error("This event is not cancelable");
+        }
+    }
+}

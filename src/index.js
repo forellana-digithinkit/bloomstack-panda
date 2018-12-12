@@ -138,14 +138,22 @@ export class Component {
         this._parent = parent;
         this._children = [];
 
-        this.baseComponent = baseComponent || null;
+        this._baseComponent = baseComponent || null;
+    }
+
+    get parent() {
+        return this._parent;
+    }
+
+    get baseComponent() {
+        return this._baseComponent;
     }
 
     /**
      * Returns true if this component is the root component.
      */
     isBaseComponent() {
-        return !this.baseComponent;
+        return !this._baseComponent;
     }
 
     /**
@@ -153,8 +161,8 @@ export class Component {
      * @param {Component} component 
      */
     async addComponent(component) {
-        if ( this.baseComponent ) {
-            return await this.baseComponent.addComponent(component);
+        if ( this._baseComponent ) {
+            return await this._baseComponent.addComponent(component);
         }
 
         let componentName = resolveComponentName(component);
@@ -182,8 +190,8 @@ export class Component {
      * @param {Component} component The component to remove.
      */
     async removeComponent(component) {
-        if ( this.baseComponent ) {
-            return this.baseComponent.removeComponent(component);
+        if ( this._baseComponent ) {
+            return this._baseComponent.removeComponent(component);
         }
 
         let componentName = resolveComponentName(component);
@@ -199,8 +207,8 @@ export class Component {
      * @param {Component} component 
      */
     hasComponent(component) {
-        if ( this.baseComponent ) {
-            return this.baseComponent.getComponent(component);
+        if ( this._baseComponent ) {
+            return this._baseComponent.getComponent(component);
         }
 
         let componentName = resolveComponentName(component);
@@ -213,8 +221,8 @@ export class Component {
      * @param {Component} component 
      */
     getComponent(component) {
-        if ( this.baseComponent ) {
-            return this.baseComponent.getComponent(component);
+        if ( this._baseComponent ) {
+            return this._baseComponent.getComponent(component);
         }
 
         let componentName = resolveComponentName(component);
@@ -230,8 +238,8 @@ export class Component {
      * Returns an array of all sub components of this component.
      */
     getAllComponents() {
-        if ( this.baseComponent ) {
-            return this.baseComponent.getAllComponents();
+        if ( this._baseComponent ) {
+            return this._baseComponent.getAllComponents();
         }
 
         return Object.values(this._components);
@@ -244,8 +252,8 @@ export class Component {
      */
     async addChild(child, props) {
 
-        if ( this.baseComponent ) {
-            return await this.baseComponent.addChild(child, props);
+        if ( this._baseComponent ) {
+            return await this._baseComponent.addChild(child, props);
         }
 
         if ( child.constructor === Array ) {
@@ -274,8 +282,8 @@ export class Component {
      * @param {Component} child The child component to remove.
      */
     async removeChild(child) {
-        if ( this.baseComponent ) {
-            return await this.baseComponent.removeChild(child);
+        if ( this._baseComponent ) {
+            return await this._baseComponent.removeChild(child);
         }
 
         let foundChildIdx = this._children.indexOf(child);
@@ -298,8 +306,8 @@ export class Component {
      * @param {string} name Name of child component to find.
      */
     getChild(name) {
-        if ( this.baseComponent ) {
-            return this.baseComponent.getChild(name);
+        if ( this._baseComponent ) {
+            return this._baseComponent.getChild(name);
         }
 
         let result = this.findChildren((child) => child.name === name);
@@ -314,8 +322,8 @@ export class Component {
      * Returns an array of children components attached to this component.
      */
     getChildren() {
-        if ( this.baseComponent ) {
-            return this.baseComponent.getChildren();
+        if ( this._baseComponent ) {
+            return this._baseComponent.getChildren();
         }
 
         return this._children;
@@ -327,8 +335,8 @@ export class Component {
      * @param {function} predicate Filter predicate.
      */
     findChildren(predicate) {
-        if ( this.baseComponent ) {
-            return this.baseComponent.findChildren(predicate);
+        if ( this._baseComponent ) {
+            return this._baseComponent.findChildren(predicate);
         }
 
         return this._children.reduce((cur, child) => {
@@ -395,8 +403,8 @@ export class Component {
      * @param  {...any} args Arguments to pass to the method.
      */
     async broadcast(method, ...args) {
-        if ( this.baseComponent ) {
-            return await this.baseComponent.broadcast(method, ...args);
+        if ( this._baseComponent ) {
+            return await this._baseComponent.broadcast(method, ...args);
         }
 
         await this.send(method, ...args);
@@ -421,8 +429,8 @@ export class Component {
      * @param  {...any} args Arguments to pass to method call.
      */
     async send(method, ...args) {
-        if ( this.baseComponent ) {
-            return await this.baseComponent.send(method, ...args);
+        if ( this._baseComponent ) {
+            return await this._baseComponent.send(method, ...args);
         }
 
         let fn = Reflect.get(this, method);

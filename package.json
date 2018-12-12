@@ -1,6 +1,6 @@
 {
   "name": "@bloomstack/panda",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generic aggregate composition library. Meant to be light weight and easily extensible.",
   "main": "lib/index.js",
   "module": "es/index.js",

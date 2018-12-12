@@ -3,6 +3,46 @@ import { Component } from 'src';
 
 const spyOn = expect.spyOn;
 
+describe("Component", async () => {
+  it("Construct static defaults", async () => {
+    let comp = await Component.create();
+    expect(comp._inited).toBe(false);
+    await comp.init();
+    expect(comp._inited).toBe(true);
+  });
+
+  it("Construct static defaults", async () => {
+    let comp = await Component.createAndInit();
+    expect(comp._inited).toBe(true);
+  });
+
+  it("Construct static baseComponent", async () => {
+    let baseComp = await Component.createAndInit();
+    let comp = await Component.create(baseComp);
+    expect(comp._inited).toBe(false);
+    expect(comp.baseComponent === baseComp).toBe(true);
+  });
+
+  it("Construct static parent", async () => {
+    let parentComp = await Component.createAndInit();
+    let comp = await Component.create(null, parentComp);
+    expect(comp._inited).toBe(false);
+    expect(!comp.baseComp).toBe(true);
+    expect(comp.parent === parentComp).toBe(true);
+  });
+
+  it("Construct static baseComponent and parent", async () => {
+    let baseComp = await Component.createAndInit();
+    let parentComp = await Component.createAndInit();
+    let comp = await Component.create(baseComp, parentComp);
+    expect(comp._inited).toBe(false);
+    expect(!comp.baseComp).toBe(true);
+    expect(comp.baseComponent === baseComp).toBe(true);
+    expect(comp.parent === parentComp).toBe(true);
+  });
+})
+
+
 class TestComponent extends Component {
   testMethod() {
     return "testMethodResult";
