@@ -149,6 +149,14 @@ export class Component {
         return this._baseComponent;
     }
 
+    get wasInitialized() {
+        return this._inited;
+    }
+
+    get wasStarted() {
+        return this._started;
+    }
+
     /**
      * Returns true if this component is the root component.
      */
@@ -360,6 +368,9 @@ export class Component {
 
         await this.broadcast("onInit");
         await this.broadcast('onStart');
+
+        this._started = true;
+
         await this.update();
         await this.broadcast('onLateStart');
 
