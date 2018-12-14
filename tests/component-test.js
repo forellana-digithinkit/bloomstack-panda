@@ -40,6 +40,15 @@ describe("Component", async () => {
     expect(comp.baseComponent === baseComp).toBe(true);
     expect(comp.parent === parentComp).toBe(true);
   });
+
+  it("Pause updates", async () => {
+    let comp = await Component.create();
+    comp.onUpdate = function() { /* do nothing */ }
+    spyOn(comp, 'onUpdate').andCallThrough();
+    comp.canUpdate = false;
+    await comp.init();
+    expect(comp.onUpdate).toNotHaveBeenCalled();
+  });
 })
 
 

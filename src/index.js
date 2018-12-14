@@ -137,6 +137,7 @@ export class Component {
         this._components = {}
         this._parent = parent;
         this._children = [];
+        this._canUpdate = true;
 
         this._baseComponent = baseComponent || null;
     }
@@ -155,6 +156,14 @@ export class Component {
 
     get wasStarted() {
         return this._started;
+    }
+
+    get canUpdate() {
+        return this._canUpdate;
+    }
+
+    set canUpdate(value) {
+        this._canUpdate = value;
     }
 
     /**
@@ -371,7 +380,10 @@ export class Component {
 
         this._started = true;
 
-        await this.update();
+        if ( this.canUpdate ) {
+            await this.update();
+        }
+        
         await this.broadcast('onLateStart');
 
         return this;
