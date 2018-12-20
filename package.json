@@ -1,13 +1,14 @@
 {
   "name": "@bloomstack/panda",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A generic aggregate composition library. Meant to be light weight and easily extensible.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
     "es",
     "lib",
-    "umd"
+    "umd",
+    "src"
   ],
   "scripts": {
     "build": "nwb build-web-module",
