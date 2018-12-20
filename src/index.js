@@ -4,7 +4,7 @@
  * fnOrVal parameter. Optionally when fnOrVar is not a function, args[0] will be used
  * as a default return value.
  * @param {any} fnOrVar A value or function to call.
- * @param  {...any} args Arguments used when fnOrVar is a function. Else first value is
+ * @param {...any} args Arguments used when fnOrVar is a function. Else first value is
  *                       used as a default return value.
  */
 export function safe(fnOrVar, ...args) {
@@ -72,6 +72,11 @@ export function resolveRequiredComponents(component) {
     return requiredComponents;
 }
 
+/**
+ * @callback Component~onUpdate
+ * @returns Promise
+ */
+
 
 /**
  * A generic aggregation style component class meant to be used for extensible
@@ -84,6 +89,7 @@ export class Component {
      * components.
      */
     name = "Component";
+    
     /**
      * When false, component will refuse updates.
      */
@@ -138,30 +144,49 @@ export class Component {
         this._parent = parent;
         this._children = [];
         this._canUpdate = true;
+        this.name = this.constructor.name;
 
         this._baseComponent = baseComponent || null;
     }
 
+    /**
+     * Gets this component's parent node
+     */
     get parent() {
         return this._parent;
     }
 
+    /**
+     * Gets this component base component instance.
+     */
     get baseComponent() {
         return this._baseComponent;
     }
 
+    /**
+     * Returns true if component was initialized.
+     */
     get wasInitialized() {
         return this._inited;
     }
 
+    /**
+     * Returns true if component was started.
+     */
     get wasStarted() {
         return this._started;
     }
 
+    /**
+     * Returns true if component is allowed to run updates.
+     */
     get canUpdate() {
         return this._canUpdate;
     }
 
+    /**
+     * Sets the component canUpdate flag. Only set this to pause rendering.
+     */
     set canUpdate(value) {
         this._canUpdate = value;
     }
@@ -375,7 +400,9 @@ export class Component {
 
         this._inited = true;
 
+
         await this.broadcast("onInit");
+        console.log("-init->onStart");
         await this.broadcast('onStart');
 
         this._started = true;
@@ -384,7 +411,7 @@ export class Component {
             await this.update();
         }
         
-        await this.broadcast('onLateStart');
+        await this.broadcast('onLateStart', this.canUpdate);
 
         return this;
     }
@@ -397,12 +424,12 @@ export class Component {
             await this.init()
         }
 
-        if ( !this.enabled ) {
+        if ( !this.enabled || !this.canUpdate) {
             return;
         }
 
-        await this.broadcast('onUpdate', ...arguments);
-        await this.broadcast('onAfterUpdate', ...arguments);
+        await this.broadcast('onUpdate');
+        await this.broadcast('onAfterUpdate', this.canUpdate);
 
         return this;
     }
