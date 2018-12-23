@@ -2,8 +2,8 @@
   "name": "@bloomstack/panda",
   "version": "1.0.6",
   "description": "A generic aggregate composition library. Meant to be light weight and easily extensible.",
-  "main": "src/index.js",
-  "module": "es/index.js",
+  "main": "./lib",
+  "module": "./es",
   "files": [
     "es",
     "lib",
@@ -11,17 +11,10 @@
     "src"
   ],
   "scripts": {
-    "build": "nwb build-web-module",
-    "clean": "nwb clean-module",
-    "prepublishOnly": "npm run build",
-    "test": "nwb test",
-    "test:coverage": "nwb test --coverage",
-    "test:watch": "nwb test --server"
-  },
-  "dependencies": {
+    "build": "grunt build"
   },
   "devDependencies": {
-    "nwb": "0.23.x"
+    "@bloomstack/stem": "file:.yalc/@bloomstack/stem"
   },
   "author": "forellana@digithinkit.com",
   "homepage": "",

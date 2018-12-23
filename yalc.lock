@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@bloomstack/stem": {
+      "signature": "2a1d8f12edf9c51935c5bf4337b964ec",
+      "file": true,
+      "replaced": "latest"
+    }
+  }
+}
